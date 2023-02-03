@@ -21,7 +21,7 @@ export class RecipeDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.id = +params.get('id');
-      this.recipe = this.recipeService.getRecipe(this.id);
+      this.recipe = this.recipeService.getRecipe(this.id); //we are retrieving the id and calling a service to get details
     });
   }
 
@@ -29,8 +29,9 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
   }
   onEditRecipe() {
-    this.router.navigate(['edit'], { relativeTo: this.route });
-    // this.router.navigate(['../', this.id, 'edit'], {relativeTo: this.route})
+    // debugger;
+    this.router.navigate(['edit'], { relativeTo: this.route }); // edit in single cote bcoz it is not a dynamic parameter like :id
+    // this.router.navigate(['../', this.id, 'edit'], { relativeTo: this.route });
   }
   onDeleteRecipe() {
     this.recipeService.deleteRecipe(this.id);

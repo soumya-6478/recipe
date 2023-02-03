@@ -43,7 +43,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   //   this.recipeWasSelected.emit(recipe)
   // }
   onNewRecipe() {
-    this.router.navigate(['new'], { relativeTo: this.route });
+    this.router.navigate(['new'], { relativeTo: this.route }); // this is relative path. Absolute path starts with /
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

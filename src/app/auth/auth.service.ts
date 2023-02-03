@@ -22,6 +22,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   signup(email: string, password: string) {
+    console.log(new Date().getTime());
     return this.http
       .post<AuthResponseData>(
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
@@ -58,6 +59,7 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap((resData) => {
+          console.log(resData);
           this.handleAuthentication(
             resData.email,
             resData.localId,
@@ -69,12 +71,13 @@ export class AuthService {
   }
 
   autoLogin() {
+    //automatically login on page reload
     const userdata: {
       email: string;
       id: string;
       _token: string;
       _tokenExpiredate: string;
-    } = JSON.parse(localStorage.getItem('userData'));
+    } = JSON.parse(localStorage.getItem('userData')); // take a string in json format and convert it to a javascript object
     if (!userdata) {
       return;
     }
@@ -86,7 +89,7 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      this.user.next(loadedUser);
+      this.user.next(loadedUser); // for autologin
       const expiryDuration =
         new Date(userdata._tokenExpiredate).getTime() - new Date().getTime();
       this.autoLogout(expiryDuration);
@@ -118,7 +121,7 @@ export class AuthService {
   ) {
     const expireDate = new Date(new Date().getTime() + expiresIn * 1000);
     const user = new User(email, userId, token, expireDate);
-    this.user.next(user);
+    this.user.next(user); // for authentication status
     this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
   }
@@ -127,6 +130,7 @@ export class AuthService {
     let errorMsg = 'an unknown error occured!!';
     if (!errorRes.error || !errorRes.error.error) {
       return throwError(errorMsg);
+      // return throwError(()=>errorMsg);
     }
     switch (errorRes.error.error.message) {
       case 'EMAIL_EXISTS':

@@ -45,6 +45,7 @@ export class RecipeEditComponent implements OnInit {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
+      // console.log(this.recipeForm.value);
     }
     this.onCancel();
   }
@@ -85,7 +86,7 @@ export class RecipeEditComponent implements OnInit {
               name: new FormControl(ingredient.name, Validators.required),
               amount: new FormControl(ingredient.amount, [
                 Validators.required,
-                Validators.pattern(/^[1-9]+[0-9]*$/),
+                Validators.pattern(/^[1-9]\\d*$/),
               ]),
             })
           );

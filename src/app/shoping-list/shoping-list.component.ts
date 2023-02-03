@@ -16,6 +16,7 @@ export class ShopingListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.ingredients = this.slservice.getIngredients(); // this will run when the app will load first time
+    // debugger;
     this.igChangedsub = this.slservice.ingredientChanged.subscribe(
       (ingredients: Ingredient[]) => (this.ingredients = ingredients)
     );
